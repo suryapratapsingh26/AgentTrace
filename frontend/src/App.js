@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const socket = io('http://localhost:5000');
 
@@ -26,17 +27,64 @@ function App() {
     };
   }, []);
 
+  // Derived stats
+  const totalRuns = runs.length;
+  const successCount = runs.filter((r) => r.success).length;
+  const successRate = totalRuns > 0 ? ((successCount / totalRuns) * 100).toFixed(1) : 0;
+  const avgLatency =
+    totalRuns > 0 ? Math.round(runs.reduce((sum, r) => sum + (r.latencyMs || 0), 0) / totalRuns) : 0;
+  const totalCost = runs.reduce((sum, r) => sum + (r.cost || 0), 0).toFixed(4);
+
+  // Chart data: last 20 runs, oldest to newest, latency over time
+  const chartData = [...runs]
+    .slice(0, 20)
+    .reverse()
+    .map((r) => ({
+      time: new Date(r.timestamp).toLocaleTimeString(),
+      latency: r.latencyMs,
+    }));
+
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 mb-1">AgentTrace</h1>
         <p className="text-gray-500 mb-6">Real-time observability for AI agents</p>
 
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-6 p-4 inline-block">
-          <span className="text-sm text-gray-500">Total runs</span>
-          <p className="text-2xl font-semibold text-gray-900">{runs.length}</p>
+        {/* Stat cards */}
+        <div className="grid grid-cols-4 gap-4 mb-6">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+            <span className="text-sm text-gray-500">Total runs</span>
+            <p className="text-2xl font-semibold text-gray-900">{totalRuns}</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+            <span className="text-sm text-gray-500">Success rate</span>
+            <p className="text-2xl font-semibold text-green-600">{successRate}%</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+            <span className="text-sm text-gray-500">Avg latency</span>
+            <p className="text-2xl font-semibold text-gray-900">{avgLatency}ms</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+            <span className="text-sm text-gray-500">Total cost</span>
+            <p className="text-2xl font-semibold text-gray-900">${totalCost}</p>
+          </div>
         </div>
 
+        {/* Chart */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+          <h2 className="text-sm font-semibold text-gray-600 mb-4">Latency — last 20 runs</h2>
+          <ResponsiveContainer width="100%" height={220}>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <XAxis dataKey="time" tick={{ fontSize: 11 }} />
+              <YAxis tick={{ fontSize: 11 }} />
+              <Tooltip />
+              <Line type="monotone" dataKey="latency" stroke="#7c3aed" strokeWidth={2} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Table */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           <table className="w-full text-left">
             <thead className="bg-gray-100 border-b border-gray-200">
