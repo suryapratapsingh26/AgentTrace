@@ -1,23 +1,50 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import './App.css';
 
 function App() {
+  const [runs, setRuns] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:5000/api/logs')
+      .then((res) => {
+        setRuns(res.data);
+      })
+      .catch((err) => {
+        console.error('Error fetching logs:', err);
+      });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>AgentLens</h1>
+      <p>Total runs: {runs.length}</p>
+
+      <table border="1" cellPadding="8">
+        <thead>
+          <tr>
+            <th>Agent ID</th>
+            <th>Action</th>
+            <th>Success</th>
+            <th>Cost</th>
+            <th>Latency (ms)</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          {runs.map((run) => (
+            <tr key={run._id}>
+              <td>{run.agentId}</td>
+              <td>{run.action}</td>
+              <td>{run.success ? '✅' : '❌'}</td>
+              <td>{run.cost}</td>
+              <td>{run.latencyMs}</td>
+              <td>{new Date(run.timestamp).toLocaleString()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
