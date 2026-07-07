@@ -1,12 +1,17 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const logRoutes = require('./Routes/logRoutes');
 
 const app = express();
+
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('AgentLens backend is running');
 });
+
+app.use('/api', logRoutes);
 
 const PORT = process.env.PORT || 5000;
 
