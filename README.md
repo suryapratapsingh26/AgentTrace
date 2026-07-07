@@ -9,6 +9,6 @@ Real-time observability dashboard for AI agents — tracks what an agent did, wh
 - **Backend:** Node.js, Express.js, Socket.io
 - **Database:** MongoDB (agent run logs)
 - **Vector Store:** ChromaDB (embeddings of past runs/failures for RAG)
-- **Frontend:** Next.js, React, Tailwind CSS, Recharts
+- **Frontend:** React, Tailwind CSS, Recharts
 - **AI Microservice:** Python, FastAPI, Groq (Llama 3) — RAG pipeline for failure analysis
 - **Demo Agent:** Node.js script simulating a real AI agent sending logs
