@@ -20,6 +20,9 @@ router.post('/log', async (req, res) => {
 
     await run.save();
 
+    // Broadcast to all connected dashboard clients in real time
+    req.io.emit('newRun', run);
+
     res.status(201).json({ message: 'Run logged', run });
   } catch (err) {
     res.status(500).json({ error: err.message });
