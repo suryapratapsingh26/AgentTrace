@@ -45,7 +45,8 @@ FastAPI AI Service (/analyze-failure)
 Result cached back in MongoDB
 ```
 
-![AgentTrace Architecture](./architecture.png)![alt text](image.png)
+![AgentTrace Architecture]
+[alt text](image.png)
 
 ## Tech Stack
 
