@@ -33,7 +33,7 @@ class FailureRequest(BaseModel):
     errorMessage: str
 
 
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 def root():
     return {"message": "AgentTrace AI service is running"}
 
