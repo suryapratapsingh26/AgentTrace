@@ -2,20 +2,20 @@
 
 AgentTrace is a real-time monitoring dashboard for AI agents. It logs every action an agent takes and shows successes and failures live on a dashboard. When something fails, you can click "Analyze" to see the likely root cause — using a RAG pipeline that retrieves similar past failures and uses them as context to detect recurring patterns.
 
-## 🚀 Key Features
+## Key Features
 
-### 📡 Real-Time Observability
+### Real-Time Observability
 - **Live dashboard** — agent runs appear instantly via WebSockets, no refresh needed
 - **Full run history** — agent ID, action, cost, latency, success/failure, timestamp
 - **Persistent storage** — every run is logged to MongoDB
 
-### 🧠 RAG-Powered Failure Analysis
+###  RAG-Powered Failure Analysis
 - **On-demand analysis** — click "Analyze" on any failed run, no automatic LLM calls on every failure
 - **Vector similarity retrieval** — failures are embedded and stored in ChromaDB; new failures are compared against past ones
 - **Context-aware generation** — Gemini generates its explanation using retrieved similar failures as context, so it can flag recurring patterns instead of analyzing each failure in isolation
 - **Cached results** — once a run is analyzed, the result is cached in MongoDB so it's not regenerated on every click
 
-## 🏗 Architecture
+## Architecture
 
 ```
 Agent
@@ -47,7 +47,7 @@ Result cached back in MongoDB
 
 ![AgentTrace Architecture](./architecture.png)![alt text](image.png)
 
-## 🛠 Tech Stack
+## Tech Stack
 
 **Backend**
 - Node.js + Express
@@ -64,7 +64,7 @@ Result cached back in MongoDB
 - Google Gemini (`gemini-2.5-flash`) for failure analysis
 - ChromaDB (vector database) for similarity search / RAG retrieval
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 AgentTrace/
@@ -90,7 +90,7 @@ AgentTrace/
 └── README.md
 ```
 
-## 🎮 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
