@@ -165,7 +165,7 @@ uvicorn main:app --reload --port 8000
 - Watch them appear live on the dashboard at `http://localhost:3000`
 - Click **Analyze** on any failed run to see the AI-generated root cause analysis
 
-## 📖 API Reference
+## API Reference
 
 **Backend** (`http://localhost:5000`)
 
@@ -183,7 +183,7 @@ uvicorn main:app --reload --port 8000
 
 Interactive API docs available at `http://localhost:8000/docs`.
 
-## 🔭 Future Improvements
+##  Future Improvements
 
 - Filter/search runs by agent, action, or status
 - Analytics charts (failure rate over time, cost trends)
