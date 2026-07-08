@@ -29,6 +29,14 @@ const AgentRunSchema = new mongoose.Schema({
   errorMessage: {
     type: String,
   },
+  aiAnalysis: {
+    type: String,
+    default: null,
+  },
+  similarPastFailures: {
+    type: [String],
+    default: [],
+  },
   timestamp: {
     type: Date,
     default: Date.now,
