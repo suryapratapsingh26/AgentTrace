@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5000');
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
+const socket = io(BACKEND_URL);
 
 function App() {
   const [runs, setRuns] = useState([]);
@@ -11,7 +12,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/api/logs')
+      .get(`${BACKEND_URL}/api/logs`)
       .then((res) => {
         setRuns(res.data);
       })
@@ -31,7 +32,7 @@ function App() {
   const handleAnalyze = async (runId) => {
     setAnalyzing((prev) => ({ ...prev, [runId]: true }));
     try {
-      const res = await axios.post(`http://localhost:5000/api/logs/${runId}/analyze`);
+      const res = await axios.post(`${BACKEND_URL}/api/logs/${runId}/analyze`);
       setRuns((prevRuns) =>
         prevRuns.map((run) =>
           run._id === runId
